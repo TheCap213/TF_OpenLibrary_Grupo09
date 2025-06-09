@@ -44,3 +44,11 @@ void MenuInicioSesion() {
 	
 
 }
+
+void MenuUsuario() {
+
+}
+
+void MenuBibliotecario() {
+
+}
