@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "Colores.hpp"
 
+
+// MENU PRINCIPAL
 void tituloMenu(int x, int y) {
     textColor("#07e092"); 
     SetConsoleOutputCP(CP_UTF8); 
@@ -60,5 +62,28 @@ void libroMenu(int x, int y) {
         posicion(x, y + i);
         cout << simbolo[i];
     }
+    resetColor();
+}
+
+// MENU USUARIO
+void tituloBibliotecario(int x, int y) {
+    textColor("#07e092");
+    SetConsoleOutputCP(CP_UTF8);
+
+    const char* titulo[] = {
+
+        u8"███╗   ███╗███████╗███╗   ██╗██╗   ██╗", 
+        u8"████╗ ████║██╔════╝████╗  ██║██║   ██║", 
+        u8"██╔████╔██║█████╗  ██╔██╗ ██║██║   ██║", 
+        u8"██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║   ██║", 
+        u8"██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╔╝", 
+        u8"╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ "
+
+    };
+    for (int i = 0; i < 6; ++i) {
+        posicion(x, y + i);
+        cout << titulo[i];
+    }
+
     resetColor();
 }

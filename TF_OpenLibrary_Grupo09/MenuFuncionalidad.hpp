@@ -8,7 +8,6 @@ void menuPrincipal() {
 
 	do {
 	system("title OpenLibrary");	//Titulo de la consola
-	//system("color fb");
 	
 	//Diseño del menu principal.
 	textColor("#b3b3b3");
@@ -49,6 +48,5 @@ void MenuUsuario() {
 
 }
 
-void MenuBibliotecario() {
-
+void MenuBibliotecario(){
 }
