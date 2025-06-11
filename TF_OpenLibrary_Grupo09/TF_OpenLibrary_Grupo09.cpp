@@ -1,6 +1,5 @@
 #include "MenuFuncionalidad.hpp"
 
-
 int main() {
 	//system("color fd");
 

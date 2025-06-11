@@ -3,7 +3,7 @@
 
 
 // MENU PRINCIPAL
-void tituloMenu(int x, int y) {
+void tituloOpenLibrary(int x, int y) {
     textColor("#07e092"); 
     SetConsoleOutputCP(CP_UTF8); 
 
@@ -65,8 +65,7 @@ void libroMenu(int x, int y) {
     resetColor();
 }
 
-// MENU USUARIO
-void tituloBibliotecario(int x, int y) {
+void tituloMenu(int x, int y) {
     textColor("#07e092");
     SetConsoleOutputCP(CP_UTF8);
 
@@ -78,6 +77,62 @@ void tituloBibliotecario(int x, int y) {
         u8"██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║   ██║", 
         u8"██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╔╝", 
         u8"╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ "
+
+    };
+    for (int i = 0; i < 6; ++i) {
+        posicion(x, y + i);
+        cout << titulo[i];
+    }
+
+    resetColor();
+}
+
+void dibujarBordes(const string& hexColor) {
+    SetConsoleOutputCP(CP_UTF8);
+    HANDLE consola = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO infoConsola;
+    GetConsoleScreenBufferInfo(consola, &infoConsola);
+
+    int ancho = infoConsola.srWindow.Right - infoConsola.srWindow.Left + 1;
+    int alto = infoConsola.srWindow.Bottom - infoConsola.srWindow.Top + 1;
+
+    string bloque = u8"█"; // Unicode block
+    textColor(hexColor);
+
+    COORD cursorOriginal = infoConsola.dwCursorPosition;
+
+    COORD filaSuperior = { 0, infoConsola.srWindow.Top };
+    SetConsoleCursorPosition(consola, filaSuperior);
+    for (int i = 0; i < ancho; ++i) cout << bloque;
+
+    for (int fila = infoConsola.srWindow.Top + 1; fila < infoConsola.srWindow.Bottom; ++fila) {
+        COORD izquierda = { 0, (SHORT)fila };
+        COORD derecha = { (SHORT)(ancho - 1), (SHORT)fila };
+
+        SetConsoleCursorPosition(consola, izquierda); cout << bloque;
+        SetConsoleCursorPosition(consola, derecha);   cout << bloque;
+    }
+
+    COORD filaInferior = { 0, infoConsola.srWindow.Bottom };
+    SetConsoleCursorPosition(consola, filaInferior);
+    for (int i = 0; i < ancho; ++i) cout << bloque;
+
+    SetConsoleCursorPosition(consola, cursorOriginal);
+    resetColor();
+}
+
+void tituloRegistro(int x, int y) {
+    textColor("#07e092");
+    SetConsoleOutputCP(CP_UTF8);
+
+    const char* titulo[] = {
+
+        u8"██████╗ ███████╗ ██████╗ ██╗███████╗████████╗██████╗  ██████╗ ",
+        u8"██╔══██╗██╔════╝██╔════╝ ██║██╔════╝╚══██╔══╝██╔══██╗██╔═══██╗",
+        u8"██████╔╝█████╗  ██║  ███╗██║███████╗   ██║   ██████╔╝██║   ██║",
+        u8"██╔══██╗██╔══╝  ██║   ██║██║╚════██║   ██║   ██╔══██╗██║   ██║",
+        u8"██║  ██║███████╗╚██████╔╝██║███████║   ██║   ██║  ██║╚██████╔╝",
+        u8"╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ "
 
     };
     for (int i = 0; i < 6; ++i) {
