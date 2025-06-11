@@ -43,7 +43,8 @@ void clearBackground(int r, int g, int b, int alto = 25, int ancho = 80) {
 	cout << "\x1b[" << alto << "A"; // Subir cursor
 }
 
-void dibujarBordes() {
+void dibujarBordes(const string& hexColor) {
+	SetConsoleOutputCP(CP_UTF8);
 	HANDLE consola = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_SCREEN_BUFFER_INFO infoConsola;
 	GetConsoleScreenBufferInfo(consola, &infoConsola);
@@ -51,17 +52,15 @@ void dibujarBordes() {
 	int ancho = infoConsola.srWindow.Right - infoConsola.srWindow.Left + 1;
 	int alto = infoConsola.srWindow.Bottom - infoConsola.srWindow.Top + 1;
 
-	char bloque = char(219);
+	string bloque = u8"█"; // Unicode block
+	textColor(hexColor);
 
-	// Guardar la posición actual del cursor
 	COORD cursorOriginal = infoConsola.dwCursorPosition;
 
-	// Línea superior
 	COORD filaSuperior = { 0, infoConsola.srWindow.Top };
 	SetConsoleCursorPosition(consola, filaSuperior);
 	for (int i = 0; i < ancho; ++i) cout << bloque;
 
-	// Columnas laterales
 	for (int fila = infoConsola.srWindow.Top + 1; fila < infoConsola.srWindow.Bottom; ++fila) {
 		COORD izquierda = { 0, (SHORT)fila };
 		COORD derecha = { (SHORT)(ancho - 1), (SHORT)fila };
@@ -70,13 +69,12 @@ void dibujarBordes() {
 		SetConsoleCursorPosition(consola, derecha);   cout << bloque;
 	}
 
-	// Línea inferior
 	COORD filaInferior = { 0, infoConsola.srWindow.Bottom };
 	SetConsoleCursorPosition(consola, filaInferior);
 	for (int i = 0; i < ancho; ++i) cout << bloque;
 
-	// Restaurar cursor original
 	SetConsoleCursorPosition(consola, cursorOriginal);
+	resetColor();
 }
 
 void posicion(int x, int y) {
