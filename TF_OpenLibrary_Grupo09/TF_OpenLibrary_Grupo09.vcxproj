@@ -130,9 +130,11 @@
     <ClCompile Include="TF_OpenLibrary_Grupo09.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Autentificador.hpp" />
     <ClInclude Include="Colores.hpp" />
     <ClInclude Include="FigurasMenu.hpp" />
     <ClInclude Include="MenuFuncionalidad.hpp" />
+    <ClInclude Include="Nodo.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -49,3 +49,19 @@ void posicion(int x, int y) {
 	posicion.Y = y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), posicion);
 }
+
+void ocultarCursor() {
+	HANDLE consola = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO infoCursor;
+	GetConsoleCursorInfo(consola, &infoCursor);
+	infoCursor.bVisible = FALSE;
+	SetConsoleCursorInfo(consola, &infoCursor);
+}
+
+void mostrarCursor() {
+	HANDLE consola = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO infoCursor;
+	GetConsoleCursorInfo(consola, &infoCursor);
+	infoCursor.bVisible = TRUE;
+	SetConsoleCursorInfo(consola, &infoCursor);
+}
