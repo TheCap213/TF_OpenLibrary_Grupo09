@@ -57,4 +57,17 @@ public:
 	bool estaVacia() {
 		return cabeza == nullptr;
 	}
+
+	T* buscarPorDNI(string dniBuscado) {
+		Nodo<T>* temp = cabeza;
+		while (temp) {
+			if (temp->dato.getDni() == dniBuscado)
+				return &(temp->dato);
+			temp = temp->siguiente;
+		}
+		return nullptr;
+	}
+
+
+
 };

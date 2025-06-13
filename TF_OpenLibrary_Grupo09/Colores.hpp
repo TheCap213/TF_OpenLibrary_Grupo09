@@ -65,3 +65,9 @@ void mostrarCursor() {
 	infoCursor.bVisible = TRUE;
 	SetConsoleCursorInfo(consola, &infoCursor);
 }
+
+int numRandom() {
+	srand(time(0));
+	int tiempoAleatorio = rand() % 3 + 1;
+	return tiempoAleatorio;
+}

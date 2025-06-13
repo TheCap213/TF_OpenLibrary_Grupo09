@@ -5,5 +5,5 @@ class Nodo {
 public: 
 	T dato;
 	Nodo<T>* siguiente;
-	Nodo(T dato, Nodo<T>* sig) : dato(dato), siguiente(sig) {}
+	Nodo(T dato, Nodo<T>* siguiente = nullptr) : dato(dato), siguiente(siguiente) {}
 };

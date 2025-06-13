@@ -136,6 +136,7 @@
     <ClInclude Include="ListaUsuarios.hpp" />
     <ClInclude Include="MenuFuncionalidad.hpp" />
     <ClInclude Include="Nodo.hpp" />
+    <ClInclude Include="UserRegistro.hpp" />
     <ClInclude Include="Usuario.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -17,6 +17,9 @@ private:
 	Rol rol;
 
 public: 
+
+	Usuario() {}
+
 	Usuario(string dni, string nombre, int edad, string correo, string password, Rol rol) {
 		this->dni = dni; 
 		this->nombre = nombre; 
@@ -27,7 +30,7 @@ public:
 	}
 
 	string serializar() {
-		return dni + "," + nombre + "," + to_string(edad) + "," + correo + "," + password + to_string(rol);
+		return dni + "," + nombre + "," + to_string(edad) + "," + correo + "," + password + "," + to_string(rol);
 	}
 
 	void deserializar(string linea) {
