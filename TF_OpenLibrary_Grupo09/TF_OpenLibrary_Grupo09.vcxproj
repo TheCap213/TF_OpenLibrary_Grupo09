@@ -133,6 +133,7 @@
     <ClInclude Include="Autentificador.hpp" />
     <ClInclude Include="Colores.hpp" />
     <ClInclude Include="FigurasMenu.hpp" />
+    <ClInclude Include="Libro.hpp" />
     <ClInclude Include="ListaUsuarios.hpp" />
     <ClInclude Include="MenuFuncionalidad.hpp" />
     <ClInclude Include="Nodo.hpp" />

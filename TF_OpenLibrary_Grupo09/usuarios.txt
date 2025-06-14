@@ -1,0 +1,2 @@
+12345678,justin,19,jutin@gmail.com,justin123,0
+87654321,Johan,19,waza@gmail.com,cap123,1

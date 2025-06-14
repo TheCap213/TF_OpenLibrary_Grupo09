@@ -45,10 +45,10 @@ public:
 			else if (campo == 2) edad = stoi(tokem);
 			else if (campo == 3) correo = tokem;
 			else if (campo == 4) password = tokem;
-			else if (campo == 5) rol = static_cast<Rol>(stoi(tokem));
 			linea.erase(0, pos + 1);
 			campo++;
 		}	
+		rol = static_cast<Rol>(stoi(linea)); 
 	}
 
 	string getDni() { return dni; }

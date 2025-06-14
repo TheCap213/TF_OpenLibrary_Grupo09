@@ -91,6 +91,7 @@ public:
 		listaUser.agregarUsuario(nuevoUser);
 		listaUser.guardarEnArchivo("usuarios.txt");
 
+		ocultarCursor();
 		posicion(54, 29); cout << "Registro exitoso!!!";
 		resetColor();
 		Sleep(numRandom() * 650);
@@ -141,6 +142,7 @@ public:
 			textColor("#147ceb");
 			posicion(40, 21); cout << "Usuario no encontrado.";
 			Sleep(numRandom() * 600);
+			system("cls");
 			return;
 		}
 
@@ -150,6 +152,7 @@ public:
 		resetColor();
 		ocultarCursor();
 		Sleep(numRandom() * 600);
+		system("cls");
 	}
 
 	T* getUserLogueado() { return userLogueado; }

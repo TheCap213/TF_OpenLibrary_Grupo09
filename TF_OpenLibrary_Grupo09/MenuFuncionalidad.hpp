@@ -22,7 +22,8 @@ void menuPrincipal() {
 		birrete(20, 15);
 		birrete(93, 15);
 		libroMenu(31, 26);
-		
+		mostrarCursor();
+
 		backgroundColor("#41b68f");
 		textColor("#000000");
 		posicion(47, 14); cout << "|.......... BIENVENIDO ..........|";
