@@ -157,5 +157,8 @@ public:
 
 	T* getUserLogueado() { return userLogueado; }
 
+	void cerrarSesion() {
+		userLogueado = nullptr;
+	}
 
 };

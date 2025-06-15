@@ -134,9 +134,12 @@
     <ClInclude Include="Colores.hpp" />
     <ClInclude Include="FigurasMenu.hpp" />
     <ClInclude Include="Libro.hpp" />
+    <ClInclude Include="LibroArbol.hpp" />
+    <ClInclude Include="LibroRegistro.hpp" />
     <ClInclude Include="ListaUsuarios.hpp" />
     <ClInclude Include="MenuFuncionalidad.hpp" />
     <ClInclude Include="Nodo.hpp" />
+    <ClInclude Include="NodoLibro.hpp" />
     <ClInclude Include="UserRegistro.hpp" />
     <ClInclude Include="Usuario.hpp" />
   </ItemGroup>

@@ -3,8 +3,8 @@
 
 
 // MENU PRINCIPAL
-void tituloOpenLibrary(int x, int y) {
-    textColor("#07e092"); 
+void tituloOpenLibrary(int x, int y, const string& hexcolor) {
+    textColor(hexcolor); 
     SetConsoleOutputCP(CP_UTF8); 
 
     const char* titulo[] = {
@@ -120,6 +120,44 @@ void dibujarBordes(const string& hexColor) {
     for (int i = 0; i < ancho; ++i) cout << bloque;
 
     SetConsoleCursorPosition(consola, cursorOriginal);
+    resetColor();
+}
+
+void dibujarLineaVertical(int x, int yInicio, int yFin, const string& hexColor) {
+    SetConsoleOutputCP(CP_UTF8);
+    HANDLE consola = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO infoConsola;
+    GetConsoleScreenBufferInfo(consola, &infoConsola);
+
+    string bloque = u8"█"; // O cualquier otro carácter que desees
+    textColor(hexColor);
+
+    // Dibujar la línea vertical
+    for (int y = yInicio; y <= yFin; ++y) {
+        COORD coordenada = { (SHORT)x, (SHORT)y };
+        SetConsoleCursorPosition(consola, coordenada);
+        cout << bloque;
+    }
+
+    resetColor();
+}
+
+void dibujarLineaHorizontal(int y, int xInicio, int xFin, const string& hexColor) {
+    SetConsoleOutputCP(CP_UTF8);
+    HANDLE consola = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO infoConsola;
+    GetConsoleScreenBufferInfo(consola, &infoConsola);
+
+    string bloque = u8"█"; // O cualquier otro carácter que desees
+    textColor(hexColor);
+
+    // Dibujar la línea horizontal
+    for (int x = xInicio; x <= xFin; ++x) {
+        COORD coordenada = { (SHORT)x, (SHORT)y };
+        SetConsoleCursorPosition(consola, coordenada);
+        cout << bloque;
+    }
+
     resetColor();
 }
 
