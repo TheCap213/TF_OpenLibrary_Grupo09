@@ -1,6 +1,7 @@
 #pragma once
 #include <algorithm>
 #include "ListaUsuarios.hpp"
+#include "LibroArbol.hpp"
 
 template <class T>
 class Autentificador {
@@ -38,6 +39,6 @@ public:
 		return validarCorreo(correo);
 	}
 
-
+	//Falta agregar autentificadores a los libros, pendiente agregacion.
 
 };

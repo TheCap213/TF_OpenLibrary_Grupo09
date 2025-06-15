@@ -110,12 +110,20 @@ public:
 	void abrirDesdeArchivo(string nombreArchivo) {
 		ifstream f(nombreArchivo);
 		string linea;
+		int maxId = 0;
 		while (getline(f, linea)) {
 			T lib;
 			lib.deserializar(linea);
 			insertarLibro(lib);
+			string id = lib.getId();
+			size_t pos = id.find('-');
+			if (pos != string::npos) {
+				int num = stoi(id.substr(pos + 1));
+				if (num > maxId) maxId = num;
+			}
 		}
-	}
+		T::idCounter = maxId;
+	}	
 	void guardarEnArchivo(string nombreArchivo) {
 		ofstream f(nombreArchivo);
 		_guardarEnArchivo(raiz, f);

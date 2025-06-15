@@ -1,1 +1,3 @@
-LB-0001,Algoritmos,Cannaval,Programacion,0
+LB-0001,Algirtmos,Cannaval,Programacion,0
+LB-0002,asdasd,asdasd,asdasd,0
+LB-0003,Mate Discreta,Julio Mattos,Matematicas,32

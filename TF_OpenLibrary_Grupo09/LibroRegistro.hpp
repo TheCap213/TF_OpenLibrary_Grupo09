@@ -31,14 +31,17 @@ public:
     }
 
 	void registrarLibro() {
-		string id, titulo, autor, genero;
+		string titulo, autor, genero;
 		int stock;
-		
-		posicion(47, 11); cout << "Ingrese el ID del libro: ";
-		cin >> id; cin.ignore();
 
+		backgroundColor("#f05252");
+		textColor("#000000");
+		posicion(63, 11); cout << "|.......... AGREGANDO NUEVO LIBRO ..........|";
+		resetColor();
+
+		textColor("#ffffff");
 		posicion(47, 13); cout << "Ingrese el titulo del libro: ";
-		getline(cin, titulo);
+		getline(cin >> ws, titulo);
 
 		posicion(47, 15); cout << "Ingrese el autor del libro: ";
 		getline(cin, autor);
@@ -50,21 +53,27 @@ public:
 		cin >> stock; cin.ignore();
 
 		Libro nuevoLibro(titulo, autor, genero, stock);
+
 		if (arbolLibros.insertarLibro(nuevoLibro)) {
 
-			arbolLibros.guardarEnArchivo("libros.txt");
 			ocultarCursor();
+			textColor("#ffffff");
+			posicion(47, 21); cout << "ID del generada para el libro: " << nuevoLibro.getId();
 			textColor("#07e092");
-			posicion(47, 21); cout << "Libro registrado exitosamente!";
+			posicion(63, 23); cout << "Libro registrado exitosamente!";
+
+			arbolLibros.guardarEnArchivo("libros.txt");
 			Sleep(numRandom() * 600);
 		}
 		else {
 			ocultarCursor();
 			textColor("#fa6f09");
-			posicion(47, 21); cout << "Error al registrar el libro, intente de nuevo.";
+			posicion(63, 22); cout << "Error al registrar el libro, intente de nuevo.";
 			Sleep(numRandom() * 600);
 		}
+	}
 
+	void mostarLibros() {
 
 	}
 
