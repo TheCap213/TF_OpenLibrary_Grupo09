@@ -75,7 +75,7 @@ public:
 		}
 	}
 
-	void mostarLibros() {
+	void mostrarLibros() {
 		vector<Libro> libros;
 		arbolLibros.enOrdenVector(libros);
 		if (libros.empty()) {
@@ -90,6 +90,12 @@ public:
 
 		do {
 			ocultarCursor();
+			
+			for (int y = 13; y <= 28; ++y) {
+				posicion(47, y);
+				cout << string(60, ' ');
+			}
+
 			Libro& libro = libros[index];
 			backgroundColor("#f05252");
 			textColor("#000000");
@@ -112,7 +118,8 @@ public:
 			else {
 				textColor("#fa6f09");
 				posicion(63, 25); cout << "Opcion invalida, intente de nuevo.";
-				Sleep(numRandom() * 600);
+				Sleep(numRandom() * 450);
+				mostrarLibros();
 			}
 		} while (tecla != 3);
 

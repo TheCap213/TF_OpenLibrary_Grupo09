@@ -4,6 +4,7 @@
 #include "Colores.hpp"
 #include "FigurasMenu.hpp"
 #include <ctime>
+#include <vector>
 
 template <typename T>
 class UserRegistro {
@@ -161,4 +162,46 @@ public:
 		userLogueado = nullptr;
 	}
 
+	void mostrarUsuarios() {
+		vector<T> usuarios;
+		Nodo<T>* temp = listaUser.getCabeza();
+		while (temp) {
+			usuarios.push_back(temp->dato);
+			temp = temp->siguiente;
+		}
+		if (usuarios.empty()) {
+			posicion(50, 20); cout << "No hay usuarios registrados.";
+			_getch();
+			return;
+		}
+		int index = 0;
+		int total = (int)usuarios.size();
+		int tecla; 
+
+		do {
+			ocultarCursor();
+			T& usuario = usuarios[index];
+			backgroundColor("#f05252");
+			textColor("#000000");
+			posicion(50, 11); cout << "|.......... LISTA DE USUARIOS REGISTRADOS ..........|";
+			resetColor();
+			textColor("#ffffff");
+			posicion(47, 13); cout << "DNI: " << usuario.getDni();
+			posicion(47, 15); cout << "Nombre: " << usuario.getNombre();
+			posicion(47, 17); cout << "Edad: " << usuario.getEdad();
+			posicion(47, 19); cout << "Correo: " << usuario.getCorreo();
+			posicion(47, 21); cout << "Rol: " << (usuario.getRol() == USER ? "Usuario" : "Administrador");
+			posicion(47, 23); cout << "[1] Anterior   [2] Siguiente   [3] Salir";
+			tecla = _getch() - '0'; // Convertir a entero
+			if (tecla == 1 && index > 0) index--;
+			else if (tecla == 2 && index < total - 1) index++;
+			else if (tecla == 3) break; // Salir
+			else {
+				textColor("#fa6f09");
+				posicion(63, 25); cout << "Opcion invalida, intente de nuevo.";
+				Sleep(numRandom() * 600);
+			}
+		} while (tecla != 3);
+
+	}
 };

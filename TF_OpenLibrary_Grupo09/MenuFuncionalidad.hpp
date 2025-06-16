@@ -10,13 +10,6 @@ using namespace std;
 UserRegistro<Usuario> registro;
 LibroRegistro<Libro> registroLibros;
 
-auto compararTitulos = [](Libro a, Libro b) {
-	return a.getTitulo().compare(b.getTitulo()); // Comparar por título
-	};
-
-//LibroArbol<Libro> arbolLibros(compararTitulos, ); 
-
-
 void menuUsuario();
 void menuAdmin();
 
@@ -96,62 +89,56 @@ void menuPrincipal() {
 }
 
 void menuUsuario() {
-	system("cls");
 	mostrarCursor();
 	int opcion;
 	
 	do {
-
+		system("cls");
 		system("title Open Library - User");
 		dibujarBordes("#b3b3b3");
-
-		tituloOpenLibrary(5, 6, "#07e092");
+		dibujarLineaHorizontal(9, 1, 126, "#b3b3b3");
+		dibujarLineaVertical(44, 10, 35, "#b3b3b3");
+		tituloOpenLibrary(7, 2, "#07e092");
 		backgroundColor("#41b68f");
 		textColor("#000000");
-		posicion(42, 15); cout << "|............. MENU PRINCIPAL .............|";
+		posicion(3, 11); cout << "|........... MENU PRINCIPAL ..........|";
 		resetColor();
 
 		textColor("#ffffff");
-		posicion(44, 13); cout << "Hola " << registro.getUserLogueado()->getNombre() << ", que desesas hacer hoy?";
+		posicion(5, 13); cout << "Hola " << registro.getUserLogueado()->getNombre() << ", que desesas hacer hoy?";
 
-		posicion(45, 17); cout << "[1] Ver todos los libros";
-		posicion(45, 18); cout << "[2] Buscar libros";
-		posicion(45, 19); cout << "[3] Reservar libro";
-		posicion(45, 20); cout << "[4] Ver mis reservas";
-		posicion(45, 21); cout << "[5] Devolver libro";
-		posicion(45, 22); cout << "[6] Ver comunicados";
-		posicion(45, 23); cout << "[7] Soporte";
-		posicion(45, 24); cout << "[8] Cerrar sesion";
-		posicion(42, 26); cout << "> Ingrese una opcion: ";
+		posicion(7, 16); cout << "[1] Ver todos los libros";
+		posicion(7, 18); cout << "[2] Buscar libros";
+		posicion(7, 20); cout << "[3] Reservar libro";
+		posicion(7, 22); cout << "[4] Ver mis reservas";
+		posicion(7, 24); cout << "[5] Devolver libro";
+		posicion(7, 26); cout << "[6] Ver comunicados";
+		posicion(7, 28); cout << "[7] Soporte";
+		posicion(7, 30); cout << "[8] Cerrar sesion";
+		posicion(5, 32); cout << "> Ingrese una opcion: ";
 		cin >> opcion;
 
 		switch (opcion) {
-		//case 1: 
-
-		//case 2: 
-
-		//case 3:
-
-		//case 4: 
-
-		//case 5:
-
-		//case 6:
-
-		//case 7:
-
+		case 1:
+			registroLibros.mostrarLibros();
+			menuUsuario();
+			break;
+		case 2:
+			registroLibros.buscarLibro();
+			menuUsuario();
+			break;
 		case 8:
 			ocultarCursor();
 			textColor("#e8e036");
-			posicion(42, 28); cout << "";
+			posicion(5, 34); cout << "Cerrando sesion...";
 			Sleep(numRandom() * 600);
+			registro.cerrarSesion();
+			menuPrincipal();
 			break;
-
 		default:
 			ocultarCursor();
-			registro.cerrarSesion();
 			textColor("#df2b2b");
-			posicion(42, 28); cout << "Cerrando sesion...";
+			posicion(5, 34); cout << "Opcion invalida, intente de nuevo.";
 			Sleep(numRandom() * 600);
 			menuUsuario();
 			break;
@@ -161,7 +148,6 @@ void menuUsuario() {
 }
 
 void menuAdmin() {
-	system("cls");
 	mostrarCursor();
 	int opcion;
 	
@@ -201,7 +187,26 @@ void menuAdmin() {
 			menuAdmin();
 			break;
 		case 3: 
-			registroLibros.mostarLibros();
+			registroLibros.mostrarLibros();
+			menuAdmin();
+			break;
+		case 5: 
+			registro.mostrarUsuarios();
+			menuAdmin();
+			break;
+		case 7:
+			ocultarCursor();
+			textColor("#e8e036");
+			posicion(5, 33); cout << "Cerrando sesion...";
+			Sleep(numRandom() * 600);
+			registro.cerrarSesion();
+			menuPrincipal();
+			break;
+		default:
+			ocultarCursor();
+			textColor("#df2b2b");
+			posicion(5, 33); cout << "Opcion invalida, intente de nuevo.";
+			Sleep(numRandom() * 600);
 			menuAdmin();
 			break;
 		}
@@ -209,8 +214,4 @@ void menuAdmin() {
 	} while (opcion < 1 || opcion > 7);
 }
 
-void menuAgregarLibro() {
-
-
-}
 
