@@ -172,6 +172,7 @@ void menuAdmin() {
 		dibujarLineaHorizontal(9, 1, 126, "#ffffff");
 		dibujarLineaVertical(44, 10, 35, "#ffffff");
 		tituloOpenLibrary(7, 2, "#f05252");
+		mostrarCursor();
 		backgroundColor("#f05252");
 		textColor("#000000");
 		posicion(3, 11); cout << "|........ MENU ADMINISTRATIVO ........|";
@@ -195,6 +196,14 @@ void menuAdmin() {
 			registroLibros.registrarLibro();
 			menuAdmin();
 			break;
+		case 2:
+			registroLibros.buscarLibro();
+			menuAdmin();
+			break;
+		case 3: 
+			registroLibros.mostarLibros();
+			menuAdmin();
+			break;
 		}
 
 	} while (opcion < 1 || opcion > 7);
@@ -205,22 +214,3 @@ void menuAgregarLibro() {
 
 }
 
-/*
-		tituloOpenLibrary(5, 6);
-		backgroundColor("#41b68f");
-		textColor("#000000");
-		posicion(42, 15); cout << "|............. MENU PRINCIPAL .............|";
-		resetColor();
-
-		textColor("#ffffff");
-		posicion(44, 13); cout << "Hola " << registro.getUserLogueado()->getNombre() << ", que desesas hacer hoy?";
-
-		posicion(45, 17); cout << "[1] Agregar libro";
-		posicion(45, 18); cout << "[2] Buscar libro";
-		posicion(45, 19); cout << "[3] Ver todos los libros";
-		posicion(45, 20); cout << "[4] Gestionar Foro de Anuncios";
-		posicion(45, 21); cout << "[5] Ver todos los usuarios";
-		posicion(45, 22); cout << "[6] Soporte (PENDIENTE)";
-		posicion(45, 23); cout << "[7] Cerrar Sesion";
-		posicion(42, 25); cout << "> Ingrese una opcion: ";
-*/

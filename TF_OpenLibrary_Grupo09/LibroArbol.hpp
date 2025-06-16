@@ -4,6 +4,7 @@
 #include <functional>
 #include <iostream>
 #include <string>
+#include <vector>
 
 template <class T>
 class LibroArbol {
@@ -29,18 +30,23 @@ private:
 		}
 		return nodo;
 	}
-	bool _buscarLibro(NodoLibro<T>* nodo, T libro) {
-		if (nodo == nullptr) return false;
-		int r = comparar(nodo->raiz, libro);
-		if (r == 0) return true;
-		if (r < 0) return _buscarLibro(nodo->derecha, libro);
-		else       return _buscarLibro(nodo->izquierda, libro);
+	NodoLibro<T>* _buscarPorIdRec(NodoLibro<T>* nodo, const string& id) {
+		if (!nodo) return nullptr;
+		if (nodo->raiz.getId() == id) return nodo;
+		if (id < nodo->raiz.getId()) return _buscarPorIdRec(nodo->izquierda, id);
+		return _buscarPorIdRec(nodo->derecha, id);
 	}
 	void _enOrden(NodoLibro<T>* nodo) {
 		if (nodo == nullptr) return;
 		_enOrden(nodo->izquierda);
 		procesar(nodo->raiz);
 		_enOrden(nodo->derecha);
+	}
+	void _enOrdenVectorRec(NodoLibro<T>* nodo, vector<T>& libros) {
+		if (nodo == nullptr) return;
+		_enOrdenVectorRec(nodo->izquierda, libros);
+		libros.push_back(nodo->raiz);
+		_enOrdenVectorRec(nodo->derecha, libros);
 	}
 
 	bool _eliminarLibro(NodoLibro<T>*& nodo, T e) {
@@ -95,13 +101,16 @@ public:
 		raiz = _insertarLibro(raiz, libro);
 		return true;
 	}
-
-	bool buscarLibro(T libro) {
-		return _buscarLibro(raiz, libro);
-	}
-
+	T* buscarPorId(const string& id) {
+		NodoLibro<T>* nodo = _buscarPorIdRec(raiz, id);
+		return nodo ? &nodo->raiz : nullptr;
+	}	
 	void enOrden() {
 		_enOrden(raiz);
+	}
+
+	void enOrdenVector(vector<T>& libros) {
+		_enOrdenVectorRec(raiz, libros);
 	}
 
 	bool eliminarLibro(T libro) {
