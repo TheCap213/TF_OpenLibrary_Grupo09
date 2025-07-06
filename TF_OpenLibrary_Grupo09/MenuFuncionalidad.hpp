@@ -37,9 +37,18 @@ void menuPrincipal() {
 		posicion(50, 18); cout << "[2] Iniciar sesion";
 		posicion(50, 20); cout << "[3] Salir";
 		posicion(47, 22); cout << "> Ingrese una opcion: ";
-		cin >> opcion;
-		resetColor();
+		
+		string entrada;
+		cin >> entrada;
 
+		// POR SI UN CHISTOSO SE LE OCURRE INGRESAR UN CARACTER xd
+		try {
+			opcion = stoi(entrada); //Convierte el texto a int
+		}
+		catch (...) {
+			opcion = -1; // si no es un numero le asigna -1 predeterminadamente
+		}
+		resetColor();
 
 		switch (opcion) {
 		case 1 :
@@ -89,11 +98,11 @@ void menuPrincipal() {
 }
 
 void menuUsuario() {
-	mostrarCursor();
 	int opcion;
 	
 	do {
 		system("cls");
+		mostrarCursor();
 		system("title Open Library - User");
 		dibujarBordes("#b3b3b3");
 		dibujarLineaHorizontal(9, 1, 126, "#b3b3b3");
@@ -116,7 +125,15 @@ void menuUsuario() {
 		posicion(7, 28); cout << "[7] Soporte";
 		posicion(7, 30); cout << "[8] Cerrar sesion";
 		posicion(5, 32); cout << "> Ingrese una opcion: ";
-		cin >> opcion;
+		
+		string entrada;
+		cin >> entrada;
+		try {
+			opcion = stoi(entrada);
+		}
+		catch (...) {
+			opcion = -1; 
+		}
 
 		switch (opcion) {
 		case 1:
@@ -131,28 +148,29 @@ void menuUsuario() {
 			ocultarCursor();
 			textColor("#e8e036");
 			posicion(5, 34); cout << "Cerrando sesion...";
+			resetColor();
 			Sleep(numRandom() * 600);
 			registro.cerrarSesion();
 			menuPrincipal();
-			break;
+			return;
 		default:
 			ocultarCursor();
 			textColor("#df2b2b");
 			posicion(5, 34); cout << "Opcion invalida, intente de nuevo.";
+			resetColor();
 			Sleep(numRandom() * 600);
-			menuUsuario();
 			break;
 		}
 
-	} while (opcion < 1 || opcion > 8);
+	} while (true);
 }
 
 void menuAdmin() {
-	mostrarCursor();
 	int opcion;
 	
 	do {
 		system("cls");
+		mostrarCursor();
 		system("title Open Library - Owner");
 		dibujarBordes("#ffffff");
 		dibujarLineaHorizontal(9, 1, 126, "#ffffff");
@@ -175,7 +193,16 @@ void menuAdmin() {
 		posicion(7, 26); cout << "[6] Soporte (PENDIENTE)";
 		posicion(7, 28); cout << "[7] Cerrar Sesion";
 		posicion(5, 31); cout << "> Ingrese una opcion: ";
-		cin >> opcion;
+		
+		string entrada;
+		cin >> entrada;
+
+		try {
+			opcion = stoi(entrada);
+		}
+		catch (...) {
+			opcion = -1; // Forzar default
+		}
 
 		switch (opcion) {
 		case 1: 
@@ -198,20 +225,21 @@ void menuAdmin() {
 			ocultarCursor();
 			textColor("#e8e036");
 			posicion(5, 33); cout << "Cerrando sesion...";
+			resetColor();
 			Sleep(numRandom() * 600);
 			registro.cerrarSesion();
 			menuPrincipal();
-			break;
+			return; 
 		default:
 			ocultarCursor();
 			textColor("#df2b2b");
 			posicion(5, 33); cout << "Opcion invalida, intente de nuevo.";
+			resetColor();
 			Sleep(numRandom() * 600);
-			menuAdmin();
 			break;
 		}
 
-	} while (opcion < 1 || opcion > 7);
+	} while (true);
 }
 
 

@@ -30,7 +30,7 @@ public:
 	}
 
 	static bool validarEdad(int edad) {
-		auto  validarEdad = [](int e) {return e >= 15 && e <= 150; };
+		auto  validarEdad = [](int e) {return e >= 10 && e <= 100; };
 		return validarEdad(edad);
 	}
 	

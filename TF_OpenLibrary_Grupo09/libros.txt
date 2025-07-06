@@ -1,10 +1,10 @@
-LB-0001,Algoritmos,Cannaval,Programacion,52
-LB-0002,Estructuras de Datos,Garcia,Programacion,40
-LB-0003,Patrones de Diseno,Fowler,Programacion,25
-LB-0004,Introduccion a C++,Stroustrup,Programacion,30
-LB-0005,La Sombra del Viento,Zafon,Novela,15
-LB-0006,1984,Orwell,Ciencia Ficcion,20
-LB-0007,El Principito,Saint-Exupery,Fantasia,18
-LB-0008,Breve Historia del Tiempo,Hawking,Ciencia,12
-LB-0009,Psicologia de Masas,Le Bon,Psicologia,10
-LB-0010,Filosofia para Principiantes,Humphreys,Filosofia,8
+LB-0001,Algoritmos,Cannaval,Programacion,0
+LB-0002,Estructuras de Datos,Garcia,Programacion,0
+LB-0003,Patrones de Diseno,Fowler,Programacion,0
+LB-0004,Introduccion a C++,Stroustrup,Programacion,0
+LB-0005,La Sombra del Viento,Zafon,Novela,0
+LB-0006,1984,Orwell,Ciencia Ficcion,0
+LB-0007,El Principito,Saint-Exupery,Fantasia,0
+LB-0008,Breve Historia del Tiempo,Hawking,Ciencia,0
+LB-0009,Psicologia de Masas,Le Bon,Psicologia,0
+LB-0010,Filosofia para Principiantes,Humphreys,Filosofia,0
