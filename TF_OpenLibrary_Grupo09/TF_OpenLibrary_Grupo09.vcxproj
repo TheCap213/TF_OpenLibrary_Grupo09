@@ -136,7 +136,6 @@
     <ClInclude Include="DVDAVL.hpp" />
     <ClInclude Include="FigurasMenu.hpp" />
     <ClInclude Include="Libro.hpp" />
-    <ClInclude Include="LibroArbol.hpp" />
     <ClInclude Include="LibroAVL.hpp" />
     <ClInclude Include="LibroHashTable.hpp" />
     <ClInclude Include="LibroRegistro.hpp" />

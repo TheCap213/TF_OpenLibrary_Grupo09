@@ -43,4 +43,6 @@ public:
     string getDirector() const { return director; }
     string getGenero() const { return genero; }
     int getStock() const { return stock; }
+    void setStock(int s) { stock = s; }
+
 };

@@ -45,6 +45,7 @@ public:
 	string getAutor() const { return autor; }
 	string getGenero() const { return genero; }
 	int getStock() const { return stock; }
+	void setStock(int s) { stock = s; }
 
 };
 

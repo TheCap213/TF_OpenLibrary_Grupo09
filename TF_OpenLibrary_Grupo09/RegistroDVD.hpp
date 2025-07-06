@@ -1,11 +1,7 @@
 #pragma once
 #include "DVDAVL.hpp"
-#include "Colores.hpp"
 #include "FigurasMenu.hpp"
 #include <ctime>
-#include <iostream>
-#include <string>
-#include <vector>
 
 using namespace std;
 
@@ -124,8 +120,35 @@ public:
         } while (true);
     }
 
-    // Buscar DVD por ID
-    DVD* buscarDVD(const string& id) {
-        return arbolDVDs.buscarPorId(id);
+    void buscarDVD() {
+        string id;
+        backgroundColor("#ffd795");
+        textColor("#000000");
+        posicion(63, 11); cout << "|.......... BUSCAR DVD ..........|";
+        resetColor();
+
+        textColor("#ffffff");
+        posicion(47, 13); cout << "Ingrese el ID completo del DVD. Ejem (DV-0001)";
+        posicion(47, 15); cout << "Ingresar ID: ";
+        getline(cin >> ws, id);
+
+        DVD* encontrado = arbolDVDs.buscarPorId(id);
+
+        if (!encontrado) {
+            ocultarCursor();
+            textColor("#fa6f09");
+            posicion(63, 17); cout << "DVD no encontrado.";
+            Sleep(numRandom() * 400);
+            return;
+        }
+        else {
+            ocultarCursor();
+            textColor("#d0ff3f");
+            posicion(47, 17); cout << "El DVD que estas buscando es el siguiente:";
+            textColor("#ffffff");
+            posicion(47, 19); cout << encontrado->toString();
+            _getch();
+        }
     }
+
 };

@@ -2,3 +2,4 @@
 87654321,Johan,19,waza@gmail.com,cap123,1
 11111111,luis,12,luis@gmail.com,luis123,0
 22222222,miguel,100,miguel@gmail.com,miguelitoxd,0
+66666666,Lucifer,29,lucifer@gmail.com,666666,0

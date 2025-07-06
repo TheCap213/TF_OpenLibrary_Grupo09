@@ -1,13 +1,7 @@
 #pragma once
-#include "LibroArbol.hpp"
 #include "LibroAVL.hpp"
-#include "Autentificador.hpp"
 #include "Colores.hpp"
-#include "FigurasMenu.hpp"
 #include <ctime>
-#include <iostream>
-#include <string>
-#include <vector>
 
 using namespace std;
 
@@ -154,27 +148,25 @@ public:
 		posicion(47, 15); cout << "Ingresar ID: ";
 		getline(cin >> ws, id);
 
-		for (int y = 13; y <= 35; ++y) {
-			posicion(47, y);
-			cout << string(79, ' ');
-		}
-
 		Libro* encontrado = arbolLibros.buscarPorId(id);
 
 		if (!encontrado) {
 			ocultarCursor();
 			textColor("#fa6f09");
-			posicion(63, 15); cout << "Libro no encontrado.";
+			posicion(63, 17); cout << "Libro no encontrado.";
 			Sleep(numRandom() * 400);
 			return;
 		}
 		else {
 			ocultarCursor();
-			resetColor();
+			textColor("#d0ff3f");
+			posicion(47, 17); cout << "El libro que estas buescando es el siguiente: ";
 			textColor("#ffffff");
-			posicion(47, 13); cout << encontrado->toString();
+			posicion(47, 19); cout << encontrado->toString();
 			_getch();
 		}
 	}
 
 };
+
+

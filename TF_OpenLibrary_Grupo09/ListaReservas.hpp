@@ -1,7 +1,6 @@
 #pragma once
 #include "NodoReserva.hpp"
 #include "Reserva.hpp"
-#include "Colores.hpp"
 #include "FigurasMenu.hpp"
 #include <iostream>
 #include <conio.h>
@@ -23,23 +22,68 @@ public:
 
     void mostrarReservas() {
         NodoReserva<T>* actual = cabeza;
-        int y = 13;
-        if (!actual) {
-            posicion(47, y); cout << "No hay reservas.";
-            _getch();
+        vector<T> reservas;
+
+        while (actual) {
+            reservas.push_back(actual->reserva);
+            actual = actual->siguiente;
+        }
+
+        if (reservas.empty()) {
+            ocultarCursor();
+            backgroundColor("#9665ff");
+            textColor("#000000");
+            posicion(63, 11); cout << "|.......... LISTA DE RESERVAS ..........|";
+            resetColor();
+            textColor("#ffffff");
+            posicion(47, 13); cout << "No hay reservas.";
+            resetColor();
+            Sleep(numRandom() * 600);
             return;
         }
 
-        backgroundColor("#f05252");
-        textColor("#000000");
-        posicion(63, 11); cout << "|.......... RESERVAS ..........|";
-        resetColor();
+        const int porPagina = 20;
+        int pagina = 0;
+        int total = reservas.size();
+        char tecla;
 
-        while (actual) {
-            posicion(47, y++);
-            cout << actual->reserva.toString();
-            actual = actual->siguiente;
-        }
-        _getch();
+        do {
+            ocultarCursor();
+
+            //Limpia area
+            for (int y = 13; y <= 35; ++y) {
+                posicion(47, y);
+                cout << string(79, ' ');
+            }
+
+            backgroundColor("#9665ff");
+            textColor("#000000");
+            posicion(63, 11); cout << "|.......... LISTA DE RESERVAS ..........|";
+            resetColor();
+
+            int start = pagina * porPagina;
+            int end = min(start + porPagina, total);
+
+            int y = 13;
+            for (int i = start; i < end; ++i) {
+                posicion(47, y++);
+                cout << reservas[i].toString();
+            }
+
+            posicion(47, y + 1); cout << "[A] Anterior | [D] Siguiente | [S] Salir";
+
+            tecla = _getch();
+
+            if (tecla == 'A' || tecla == 'a') {
+                if (pagina > 0) pagina--;
+            }
+            else if (tecla == 'D' || tecla == 'd') {
+                if (end < total) pagina++;
+            }
+            else if (tecla == 'S' || tecla == 's') {
+                break;
+            }
+
+        } while (true);
     }
 };

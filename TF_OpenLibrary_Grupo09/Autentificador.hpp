@@ -1,7 +1,6 @@
 #pragma once
 #include <algorithm>
 #include "ListaUsuarios.hpp"
-#include "LibroArbol.hpp"
 
 template <class T>
 class Autentificador {
