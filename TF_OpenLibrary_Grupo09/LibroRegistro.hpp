@@ -1,5 +1,6 @@
 #pragma once
 #include "LibroArbol.hpp"
+#include "LibroAVL.hpp"
 #include "Autentificador.hpp"
 #include "Colores.hpp"
 #include "FigurasMenu.hpp"
@@ -13,66 +14,78 @@ using namespace std;
 template <typename T>
 class LibroRegistro {
 private:
-	LibroArbol<Libro> arbolLibros;
+	LibroAVL<Libro> arbolLibros; 
 
 public:
-    LibroRegistro()
-        : arbolLibros(
-            // Comparador por ID
-            [](Libro a, Libro b) { return a.getId().compare(b.getId()); },
-            // Procesar: imprimir serialized
-            [](Libro libro) { cout << libro.serializar() << endl; }
-        )
-    {
-        arbolLibros.abrirDesdeArchivo("libros.txt");
-    }
+	LibroRegistro()
+		: arbolLibros(
+			[](Libro a, Libro b) {
+				if (a.getId() == b.getId()) return 0;
+				return a.getId() < b.getId() ? -1 : 1;
+			},
+			[](Libro libro) { cout << libro.toString() << endl; }
+		) {
+	}
 
-    // Guarda al destruir
-    ~LibroRegistro() {
-        arbolLibros.guardarEnArchivo("libros.txt");
-    }
+	~LibroRegistro() {}
 
-	void registrarLibro() {
-		string titulo, autor, genero;
-		int stock;
+	LibroAVL<Libro>& getArbol() { return arbolLibros; }
 
-		backgroundColor("#f05252");
-		textColor("#000000");
-		posicion(63, 11); cout << "|.......... AGREGANDO NUEVO LIBRO ..........|";
+	//DATA SET
+	void generarLibros(int cantidad = 500) {
+
+		Libro::idCounter = 0; 
+
+		//TENEMOS 2 LAMBAS AQUI XDXDXDXDXDXDXDXDXDXDXDXDXD
+		arbolLibros = LibroAVL<Libro>(
+			[](Libro a, Libro b) {
+				if (a.getId() == b.getId()) return 0;
+				return a.getId() < b.getId() ? -1 : 1;
+			},
+			[](Libro libro) { cout << libro.toString() << endl; }
+		);
+
+		string titulos[] = {
+		  "Hobbit", "Quijote", "Aztecas", "Lovecraft", "Orwell",
+		  "Inferno", "Atlantis", "Odisea", "Utopias", "Fausto",
+		  "Miseros", "Prometeo", "Candide", "Emma", "Madame",
+		  "Zorro", "Cumbres", "Persuade", "Siddharta", "Demian",
+		  "Crimen", "Bartleby", "Hamlet", "Macbeth", "Lear",
+		  "Galileo", "Newton", "Tesla", "Darwin", "Huxley"
+		};
+
+		string autores[] = {
+		  "Cervantes", "Orwell", "Lovecraft", "Allende", "Garcia",
+		  "Hemingway", "Kafka", "Faulkner", "Camus", "Proust",
+		  "Dumas", "Flaubert", "Voltaire", "Austen", "Zola",
+		  "Poe", "Byron", "Shelley", "Milton", "Joyce",
+		  "Homer", "Ovidio", "Platon", "Aristot", "Newton",
+		  "Tesla", "Darwin", "Galileo", "Huxley", "Hesse"
+		};
+
+		string generos[] = {
+		  "Ficcion", "Drama", "Clasico", "Aventura",
+		  "Misterio", "Ensayo", "Poesia", "Fabulas",
+		  "Leyendas", "Mitologia"
+		};
+
+		srand(time(nullptr));
+
+		for (int i = 0; i < cantidad; ++i) {
+			string titulo = titulos[rand() % 30];
+			string autor = autores[rand() % 30];
+			string genero = generos[rand() % 10];
+			int stock = rand() % 50 + 1;
+
+			Libro libro(titulo, autor, genero, stock);
+			arbolLibros.insertarLibro(libro);
+		}
+
+		ocultarCursor();
+		textColor("#07e092");
+		posicion(50, 15); cout << cantidad << " libros generados correctamente!";
 		resetColor();
-
-		textColor("#ffffff");
-		posicion(47, 13); cout << "Ingrese el titulo del libro: ";
-		getline(cin >> ws, titulo);
-
-		posicion(47, 15); cout << "Ingrese el autor del libro: ";
-		getline(cin, autor);
-
-		posicion(47, 17); cout << "Ingrese el genero del libro: ";
-		getline(cin, genero);
-
-		posicion(47, 19); cout << "Ingrese el stock del libro: ";
-		cin >> stock; cin.ignore();
-
-		Libro nuevoLibro(titulo, autor, genero, stock);
-
-		if (arbolLibros.insertarLibro(nuevoLibro)) {
-
-			ocultarCursor();
-			textColor("#ffffff");
-			posicion(47, 21); cout << "ID del generada para el libro: " << nuevoLibro.getId();
-			textColor("#07e092");
-			posicion(63, 23); cout << "Libro registrado exitosamente!";
-
-			arbolLibros.guardarEnArchivo("libros.txt");
-			Sleep(numRandom() * 600);
-		}
-		else {
-			ocultarCursor();
-			textColor("#fa6f09");
-			posicion(63, 22); cout << "Error al registrar el libro, intente de nuevo.";
-			Sleep(numRandom() * 600);
-		}
+		Sleep(1000);
 	}
 
 	void mostrarLibros() {
@@ -84,53 +97,67 @@ public:
 			Sleep(numRandom() * 600);
 			return;
 		}
-		int index = 0; 
-		int total = (int)libros.size();
+
+		const int porPagina = 20;
+		int pagina = 0; 
+		int total = libros.size();
 		int tecla; 
 
 		do {
 			ocultarCursor();
 			
-			for (int y = 13; y <= 28; ++y) {
+			//Limpia area
+			for (int y = 13; y <= 35; ++y) {
 				posicion(47, y);
-				cout << string(60, ' ');
+				cout << string(79, ' ');
 			}
 
-			Libro& libro = libros[index];
 			backgroundColor("#f05252");
 			textColor("#000000");
 			posicion(63, 11); cout << "|.......... LISTA DE LIBROS DISPONIBLES ..........|";
 			resetColor();
 
-			textColor("#ffffff");
-			posicion(47, 13); cout << "ID: " << libro.getId();
-			posicion(47, 15); cout << "Titulo: " << libro.getTitulo();
-			posicion(47, 17); cout << "Autor: " << libro.getAutor();
-			posicion(47, 19); cout << "Genero: " << libro.getGenero();
-			posicion(47, 21); cout << "Stock: " << libro.getStock();
-			
-			posicion(47, 23); cout << "[1] Anterior   [2] Siguiente   [3] Salir";
+			int start = pagina * porPagina;
+			int end = min(start + porPagina, total);
 
-			tecla = _getch() - '0'; // Convertir a entero
-			if (tecla == 1 && index > 0) index--;
-			else if (tecla == 2 && index < total - 1) index++;
-			else if (tecla == 3) break; // Salir
-			else {
-				textColor("#fa6f09");
-				posicion(63, 25); cout << "Opcion invalida, intente de nuevo.";
-				Sleep(numRandom() * 450);
-				mostrarLibros();
+			int y = 13;
+			for (int i = start; i < end; ++i) {
+				posicion(47, y++);
+				cout << libros[i].toString();
 			}
-		} while (tecla != 3);
+
+			posicion(47, y + 1); cout << "[A] Anterior | [D] Siguiente | [S] Salir";
+
+			tecla = _getch();
+
+			if (tecla == 'A' || tecla == 'a') {
+				if (pagina > 0) pagina--;
+			}
+			else if (tecla == 'D' || tecla == 'd') {
+				if (end < total) pagina++;
+			}
+			else if (tecla == 'S' || tecla == 's') {
+				break;
+			}
+		} while (true);
 
 	}
 
 	void buscarLibro() {
 		string id; 
+		backgroundColor("#ffd795");
+		textColor("#000000");
 		posicion(63, 11); cout << "|.......... BUSCAR LIBRO ..........|";
+		resetColor();
 		textColor("#ffffff");
-		posicion(47, 13); cout << "Ingrese el ID completo del libro a buscar: ";
+		posicion(47, 13); cout << "Ingrese el ID completo del libro. Ejem (LB-0001)";
+		posicion(47, 15); cout << "Ingresar ID: ";
 		getline(cin >> ws, id);
+
+		for (int y = 13; y <= 35; ++y) {
+			posicion(47, y);
+			cout << string(79, ' ');
+		}
 
 		Libro* encontrado = arbolLibros.buscarPorId(id);
 
@@ -145,13 +172,9 @@ public:
 			ocultarCursor();
 			resetColor();
 			textColor("#ffffff");
-			posicion(47, 13); cout << "ID: " << encontrado->getId();
-			posicion(47, 15); cout << "Titulo: " << encontrado->getTitulo();
-			posicion(47, 17); cout << "Autor: " << encontrado->getAutor();
-			posicion(47, 19); cout << "Genero: " << encontrado->getGenero();
-			posicion(47, 21); cout << "Stock: " << encontrado->getStock();
+			posicion(47, 13); cout << encontrado->toString();
+			_getch();
 		}
-		_getch();
 	}
 
 };

@@ -18,6 +18,7 @@ public:
 		return nullptr;
 	}
 
+	//TENEMOS 4 LAMBDAS AQUI XDXDXDXDXDXDXDX
 	static bool validarDNI(string dni) {
 		auto esDigito = [](char c) {return c >= '0' && c <= '9'; };
 		return dni.length() == 8 && all_of(dni.begin(), dni.end(), esDigito);

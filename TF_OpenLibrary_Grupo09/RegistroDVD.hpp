@@ -1,0 +1,131 @@
+#pragma once
+#include "DVDAVL.hpp"
+#include "Colores.hpp"
+#include "FigurasMenu.hpp"
+#include <ctime>
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+template <typename T>
+class RegistroDVD {
+private:
+    DVDAVL<DVD> arbolDVDs;
+
+public:
+    RegistroDVD()
+        : arbolDVDs(
+            [](DVD a, DVD b) {
+                if (a.getId() == b.getId()) return 0;
+                return a.getId() < b.getId() ? -1 : 1;
+            },
+            [](DVD dvd) { cout << dvd.toString() << endl; }
+        ) {
+    }
+
+    ~RegistroDVD() {}
+
+    DVDAVL<DVD>& getArbol() { return arbolDVDs; }
+
+    // Generar DVDs
+    void generarDVDs(int cantidad = 100) {
+        string titulos[] = { "Matrix", "Avatar", "Gladiator", "Titanic", "Godzilla",
+                             "Rocky", "Rambo", "Shrek", "MadMax", "Blade" };
+        string directores[] = { "Cameron", "Nolan", "Spielberg", "Scott", "Jackson" };
+        string generos[] = { "Accion", "Drama", "SciFi", "Historia", "Comedia" };
+
+        srand(time(nullptr)); // Solo una vez idealmente
+
+        // Reinicia ID si quieres empezar desde DV-0001 cada vez:
+        DVD::idCounter = 0;
+
+        // Reinicia árbol:
+        arbolDVDs = DVDAVL<DVD>(
+            [](DVD a, DVD b) {
+                if (a.getId() == b.getId()) return 0;
+                return a.getId() < b.getId() ? -1 : 1;
+            },
+            [](DVD dvd) { cout << dvd.toString() << endl; }
+        );
+
+        for (int i = 0; i < cantidad; ++i) {
+            string titulo = titulos[rand() % 10];
+            string director = directores[rand() % 5];
+            string genero = generos[rand() % 5];
+            int stock = rand() % 30 + 1;
+
+            DVD dvd(titulo, director, genero, stock);
+            arbolDVDs.insertarDVD(dvd);
+        }
+
+        ocultarCursor();
+        textColor("#07e092");
+        posicion(50, 15); cout << cantidad << " DVDs generados!";
+        resetColor();
+        Sleep(1000);
+    }
+
+    // Mostrar DVDs con paginación
+    void mostrarDVDs() {
+        vector<DVD> dvds;
+        arbolDVDs.enOrdenVector(dvds);
+
+        if (dvds.empty()) {
+            textColor("#fa6f09");
+            posicion(63, 22); cout << "No hay DVDs generados.";
+            Sleep(600);
+            return;
+        }
+
+        const int porPagina = 20;
+        int pagina = 0;
+        int total = dvds.size();
+        char tecla;
+
+        do {
+            ocultarCursor();
+
+            //Limpia area
+            for (int y = 13; y <= 35; ++y) {
+                posicion(47, y);
+                cout << string(79, ' ');
+            }
+
+            backgroundColor("#f05252");
+            textColor("#000000");
+            posicion(63, 11); cout << "|.......... LISTA DE DVDs ..........|";
+            resetColor();
+
+            int start = pagina * porPagina;
+            int end = min(start + porPagina, total);
+
+            int y = 13;
+            for (int i = start; i < end; ++i) {
+                posicion(47, y++);
+                cout << dvds[i].toString();
+            }
+
+            posicion(47, y + 1); cout << "[A] Anterior | [D] Siguiente | [S] Salir";
+
+            tecla = _getch();
+
+            if (tecla == 'A' || tecla == 'a') {
+                if (pagina > 0) pagina--;
+            }
+            else if (tecla == 'D' || tecla == 'd') {
+                if (end < total) pagina++;
+            }
+            else if (tecla == 'S' || tecla == 's') {
+                break;
+            }
+
+        } while (true);
+    }
+
+    // Buscar DVD por ID
+    DVD* buscarDVD(const string& id) {
+        return arbolDVDs.buscarPorId(id);
+    }
+};

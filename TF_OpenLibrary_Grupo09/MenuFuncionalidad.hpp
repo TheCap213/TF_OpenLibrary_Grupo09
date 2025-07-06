@@ -2,13 +2,20 @@
 #include "Colores.hpp"
 #include "FigurasMenu.hpp"
 #include "UserRegistro.hpp"
+#include "RegistroDVD.hpp"
 #include "LibroRegistro.hpp"
-#include "LibroArbol.hpp" //pendiente a quitar
+#include "ListaReservas.hpp"
+#include "LibroHashTable.hpp"
 #include <ctime>
 using namespace std;
 
 UserRegistro<Usuario> registro;
 LibroRegistro<Libro> registroLibros;
+RegistroDVD<DVD> registroDVDs;
+ListaReservas<Reserva> listaReservasLibros;
+ListaReservas<Reserva> listaReservasDVDs;
+
+
 
 void menuUsuario();
 void menuAdmin();
@@ -119,11 +126,11 @@ void menuUsuario() {
 		posicion(7, 16); cout << "[1] Ver todos los libros";
 		posicion(7, 18); cout << "[2] Buscar libros";
 		posicion(7, 20); cout << "[3] Reservar libro";
-		posicion(7, 22); cout << "[4] Ver mis reservas";
-		posicion(7, 24); cout << "[5] Devolver libro";
-		posicion(7, 26); cout << "[6] Ver comunicados";
-		posicion(7, 28); cout << "[7] Soporte";
-		posicion(7, 30); cout << "[8] Cerrar sesion";
+		posicion(7, 22); cout << "[4] Ver mis reservas de Libros";
+		posicion(7, 24); cout << "[5] Ver todos los DVDs";
+		posicion(7, 26); cout << "[6] Reservar DVD";
+		posicion(7, 28); cout << "[7] Ver mis reservas de DVDs";
+		posicion(7, 30); cout << "[8] Cerrar sesión";;
 		posicion(5, 32); cout << "> Ingrese una opcion: ";
 		
 		string entrada;
@@ -138,11 +145,9 @@ void menuUsuario() {
 		switch (opcion) {
 		case 1:
 			registroLibros.mostrarLibros();
-			menuUsuario();
 			break;
 		case 2:
 			registroLibros.buscarLibro();
-			menuUsuario();
 			break;
 		case 8:
 			ocultarCursor();
@@ -151,7 +156,7 @@ void menuUsuario() {
 			resetColor();
 			Sleep(numRandom() * 600);
 			registro.cerrarSesion();
-			menuPrincipal();
+			system("cls");
 			return;
 		default:
 			ocultarCursor();
@@ -185,14 +190,16 @@ void menuAdmin() {
 		textColor("#ffffff");
 		posicion(5, 13); cout << "Hola " << registro.getUserLogueado()->getNombre() << ", que desesas hacer hoy?";
 
-		posicion(7, 16); cout << "[1] Agregar libro";
-		posicion(7, 18); cout << "[2] Buscar libro";
-		posicion(7, 20); cout << "[3] Ver todos los libros";
-		posicion(7, 22); cout << "[4] Gestionar Foro de Anuncios";
-		posicion(7, 24); cout << "[5] Ver todos los usuarios";
-		posicion(7, 26); cout << "[6] Soporte (PENDIENTE)";
-		posicion(7, 28); cout << "[7] Cerrar Sesion";
-		posicion(5, 31); cout << "> Ingrese una opcion: ";
+		posicion(7, 15); cout << "[1] Generar Libros (500)";
+		posicion(7, 17); cout << "[2] Ver todos los libros";
+		posicion(7, 19); cout << "[3] Buscar libro";
+		posicion(7, 21); cout << "[4] Gestionar HashTable de Libros";
+		posicion(7, 23); cout << "[5] Generar DVDs (500)";
+		posicion(7, 25); cout << "[6] Ver todos los DVDs";
+		posicion(7, 27); cout << "[7] Buscar DVD";
+		posicion(7, 29); cout << "[8] Ver todos los usuarios";
+		posicion(7, 31); cout << "[9] Cerrar sesion";
+		posicion(5, 33); cout << "> Ingrese una opcion: ";
 		
 		string entrada;
 		cin >> entrada;
@@ -206,30 +213,56 @@ void menuAdmin() {
 
 		switch (opcion) {
 		case 1: 
-			registroLibros.registrarLibro();
-			menuAdmin();
+			registroLibros.generarLibros(500); //LIMITE DE GENERACION SON 433 en BST
 			break;
 		case 2:
-			registroLibros.buscarLibro();
-			menuAdmin();
+			registroLibros.mostrarLibros();
 			break;
 		case 3: 
-			registroLibros.mostrarLibros();
-			menuAdmin();
+			registroLibros.buscarLibro();
+			break;
+		case 4: {
+				LibroHashTable hash;
+				vector<Libro> libros;
+				registroLibros.getArbol().enOrdenVector(libros);
+				hash.gestionarHashTable(libros);
+			}
 			break;
 		case 5: 
-			registro.mostrarUsuarios();
-			menuAdmin();
+			registroDVDs.generarDVDs(100);
 			break;
-		case 7:
+		case 6:
+			registroDVDs.mostrarDVDs();
+			break;
+		case 7: { // ARREGLAR PRESENTACION (PENDIENTE)
+			string id;
+			posicion(47, 13); cout << "Ingrese ID del DVD: ";
+			getline(cin >> ws, id);
+
+			DVD* dvd = registroDVDs.getArbol().buscarPorId(id);
+
+			if (!dvd) {
+				posicion(47, 15); cout << "DVD no encontrado.";
+				Sleep(600);
+			}
+			else {
+				posicion(47, 15); cout << dvd->toString();
+				_getch();
+			}
+			break;
+		}
+		case 8:
+			registro.mostrarUsuarios();
+			break;
+		case 9:
 			ocultarCursor();
 			textColor("#e8e036");
 			posicion(5, 33); cout << "Cerrando sesion...";
 			resetColor();
 			Sleep(numRandom() * 600);
 			registro.cerrarSesion();
-			menuPrincipal();
-			return; 
+			system("cls");
+			return;
 		default:
 			ocultarCursor();
 			textColor("#df2b2b");

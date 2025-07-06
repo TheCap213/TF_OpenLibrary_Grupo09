@@ -132,14 +132,22 @@
   <ItemGroup>
     <ClInclude Include="Autentificador.hpp" />
     <ClInclude Include="Colores.hpp" />
+    <ClInclude Include="DVD.hpp" />
+    <ClInclude Include="DVDAVL.hpp" />
     <ClInclude Include="FigurasMenu.hpp" />
     <ClInclude Include="Libro.hpp" />
     <ClInclude Include="LibroArbol.hpp" />
+    <ClInclude Include="LibroAVL.hpp" />
+    <ClInclude Include="LibroHashTable.hpp" />
     <ClInclude Include="LibroRegistro.hpp" />
+    <ClInclude Include="ListaReservas.hpp" />
     <ClInclude Include="ListaUsuarios.hpp" />
     <ClInclude Include="MenuFuncionalidad.hpp" />
     <ClInclude Include="Nodo.hpp" />
     <ClInclude Include="NodoLibro.hpp" />
+    <ClInclude Include="NodoReserva.hpp" />
+    <ClInclude Include="RegistroDVD.hpp" />
+    <ClInclude Include="Reserva.hpp" />
     <ClInclude Include="UserRegistro.hpp" />
     <ClInclude Include="Usuario.hpp" />
   </ItemGroup>

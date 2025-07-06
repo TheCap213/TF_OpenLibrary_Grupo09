@@ -28,6 +28,9 @@ private:
 		else if (resultado < 0) {
 			nodo->derecha = _insertarLibro(nodo->derecha, libro);
 		}
+		else {
+			return nodo;
+		}
 		return nodo;
 	}
 	NodoLibro<T>* _buscarPorIdRec(NodoLibro<T>* nodo, const string& id) {
@@ -85,12 +88,7 @@ private:
 			return true;
 		}
 	}
-	void _guardarEnArchivo(NodoLibro<T>* nodo, ofstream& f) {
-		if (nodo == nullptr) return;
-		_guardarEnArchivo(nodo->izquierda, f);
-		f << nodo->raiz.serializar() << endl;
-		_guardarEnArchivo(nodo->derecha, f);
-	}
+	
 
 public:
 
@@ -116,25 +114,5 @@ public:
 	bool eliminarLibro(T libro) {
 		return _eliminarLibro(raiz, libro);
 	}
-	void abrirDesdeArchivo(string nombreArchivo) {
-		ifstream f(nombreArchivo);
-		string linea;
-		int maxId = 0;
-		while (getline(f, linea)) {
-			T lib;
-			lib.deserializar(linea);
-			insertarLibro(lib);
-			string id = lib.getId();
-			size_t pos = id.find('-');
-			if (pos != string::npos) {
-				int num = stoi(id.substr(pos + 1));
-				if (num > maxId) maxId = num;
-			}
-		}
-		T::idCounter = maxId;
-	}	
-	void guardarEnArchivo(string nombreArchivo) {
-		ofstream f(nombreArchivo);
-		_guardarEnArchivo(raiz, f);
-	}
+	
 };

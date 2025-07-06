@@ -16,7 +16,9 @@ private:
 public:
 
 	static int idCounter;
+
 	Libro() : id(""), titulo(""), autor(""), genero(""), stock(0) {}
+
 	Libro(string titulo, string autor, string genero, int stock) {
 		stringstream ss;
 		ss << "LB-" << setw(4) << setfill('0') << ++idCounter;
@@ -27,24 +29,15 @@ public:
 		this->stock = stock;
 	}
 	
-	string serializar() {
-		return id + "," + titulo + "," + autor + "," + genero + "," + to_string(stock);
-	}
-
-	void deserializar(string linea) {
-		size_t pos = 0;
-		int campo = 0;
-		string token;
-		while ((pos = linea.find(',')) != string::npos) {
-			token = linea.substr(0, pos);
-			if (campo == 0) id = token;
-			else if (campo == 1) titulo = token;
-			else if (campo == 2) autor = token;
-			else if (campo == 3) genero = token;
-			else if (campo == 4) stock = stoi(token);
-			linea.erase(0, pos + 1);
-			campo++;
-		}
+	string toString() const {
+		stringstream ss;
+		ss << left
+			<< setw(8) << id
+			<< "| Titulo: " << setw(10) << titulo
+			<< "| Autor: " << setw(10) << autor
+			<< "| Genero: " << setw(10) << genero
+			<< "| Stock: " << setw(3) << stock;
+		return ss.str();
 	}
 
 	string getId() const { return id; }
@@ -55,4 +48,3 @@ public:
 
 };
 
-int Libro::idCounter = 0; // Inicializar el contador de IDs
