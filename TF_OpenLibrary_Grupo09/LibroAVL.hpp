@@ -73,7 +73,7 @@ class LibroAVL {
 		else if (resultado > 0)
 			nodo->derecha = _insertar(nodo->derecha, libro);
 		else
-			return nodo; // Duplicate ID -> NO insert
+			return nodo; 
 
 		// Actualizar altura
 		nodo->altura = 1 + max(getAltura(nodo->izquierda), getAltura(nodo->derecha));
@@ -81,7 +81,7 @@ class LibroAVL {
 		// Balancear
 		int balance = getBalance(nodo);
 
-		// 4 casos
+		// 4 tipos de casos
 
 		// Left Left
 		if (balance > 1 && comparar(libro, nodo->izquierda->raiz) < 0)
@@ -106,7 +106,6 @@ class LibroAVL {
 		return nodo;
 	}
 
-	// Búsqueda por ID
 	NodoAVL* _buscar(NodoAVL* nodo, const string& id) {
 		if (!nodo) return nullptr;
 		if (nodo->raiz.getId() == id) return nodo;

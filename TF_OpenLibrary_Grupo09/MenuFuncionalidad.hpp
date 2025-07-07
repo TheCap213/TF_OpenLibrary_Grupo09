@@ -236,7 +236,8 @@ void menuAdmin() {
 
 		switch (opcion) {
 		case 1: 
-			registroLibros.generarLibros(1000); //LIMITE DE GENERACION SON 433 en BST
+			//Limite de generacion son 43 casos en BST pero en un AVL el limite es mayor
+			registroLibros.generarLibros(1000); 
 			break;
 		case 2:
 			registroLibros.mostrarLibros();
@@ -383,7 +384,7 @@ void reservarRecurso() {
 		reservarDVDsAleatorios(100);
 	}
 	else {
-		posicion(47, 23); cout << "Opción invalida."; Sleep(500);
+		posicion(47, 23); cout << "Opcion invalida."; Sleep(500);
 	}
 }
 

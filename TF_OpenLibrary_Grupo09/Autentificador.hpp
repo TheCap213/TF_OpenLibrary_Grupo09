@@ -17,7 +17,20 @@ public:
 		return nullptr;
 	}
 
-	//TENEMOS 4 LAMBDAS AQUI XDXDXDXDXDXDXDX
+	//TENEMOS 6 LAMBDAS AQUI
+	
+	static bool validarRol(int rol) {
+		return rol == 1 || rol == 2;
+	}
+
+	static bool validarNombre(const string& nombre) {
+		if (nombre.empty()) return false; // Debe tener al menos 1 caracter y no espacios
+		for (char c : nombre) {
+			if (!isalpha(c)) return false; // Solo letras
+		}
+		return true;
+	}
+
 	static bool validarDNI(string dni) {
 		auto esDigito = [](char c) {return c >= '0' && c <= '9'; };
 		return dni.length() == 8 && all_of(dni.begin(), dni.end(), esDigito);
@@ -38,7 +51,4 @@ public:
 		auto validarCorreo = [](string c) {return c.find('@') != string::npos && c.find('.') != string::npos; };
 		return validarCorreo(correo);
 	}
-
-	//Falta agregar autentificadores a los libros, pendiente agregacion.
-
 };

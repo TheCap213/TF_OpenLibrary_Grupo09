@@ -57,6 +57,13 @@ public:
 			}
 
 			posicion(42, 19); cout << "-> Nombre: "; getline(cin, nombre);
+			if (!Autentificador<T>::validarNombre(nombre)) {
+				ocultarCursor();
+				textColor("#fa6f09");
+				posicion(53, 19); cout << "Nombre invalido, ingrese solo una palabra con letras.";
+				Sleep(numRandom() * 800);
+				continue;
+			}
 			posicion(42, 21); cout << "-> Edad: "; cin >> edad; cin.ignore();
 			if (!Autentificador<T>::validarEdad(edad)) {
 				ocultarCursor(); 
@@ -85,8 +92,22 @@ public:
 			}
 
 			posicion(42, 27); cout << "-> Tipo de usuario (1:User | 2:admin): "; cin >> user; cin.ignore();
-			Rol rolElegido = (user == 2) ? ADMIN : USER;
 
+			if (cin.fail()) {
+				cin.clear();              // limpia failbit
+				cin.ignore(256, '\n');    // descarta basura
+				user = 0;                 // fuerza inválido
+			}
+
+			if (!Autentificador<T>::validarRol(user)) {
+				ocultarCursor();
+				textColor("#fa6f09");
+				posicion(81, 27); cout << "Rol inválido. Solo 1 (User) o 2 (Admin).";
+				Sleep(numRandom() * 600);
+				continue;
+			}
+
+			Rol rolElegido = (user == 2) ? ADMIN : USER;
 			T nuevoUser(dni, nombre, edad, correo, password, rolElegido);
 			listaUser.agregarUsuario(nuevoUser);
 			listaUser.guardarEnArchivo("usuarios.txt");
@@ -196,7 +217,7 @@ public:
 		do {
 			ocultarCursor();
 
-			// Limpiar área (opcional si quieres limpiar fondo)
+			// Limpiar área 
 			for (int y = 13; y <= 25; ++y) {
 				posicion(47, y); cout << string(60, ' ');
 			}

@@ -11,12 +11,13 @@ private:
     DVDAVL<DVD> arbolDVDs;
 
 public:
+
+    // USO DE 2 LAMBDAS AQUI TAMBIEN
     RegistroDVD()
         : arbolDVDs(
-            [](DVD a, DVD b) {
-                if (a.getId() == b.getId()) return 0;
-                return a.getId() < b.getId() ? -1 : 1;
-            },
+            // LAMBDA #1: compara dos DVDs por ID
+            [](DVD a, DVD b) { if (a.getId() == b.getId()) return 0; return a.getId() < b.getId() ? -1 : 1; },
+            // LAMBDA #2: procesa cada DVD (lo muestra)
             [](DVD dvd) { cout << dvd.toString() << endl; }
         ) {
     }
@@ -25,24 +26,28 @@ public:
 
     DVDAVL<DVD>& getArbol() { return arbolDVDs; }
 
-    // Generar DVDs
+    // DATASET - GENERADOR DE DVDs
+
     void generarDVDs(int cantidad = 100) {
         string titulos[] = { "Matrix", "Avatar", "Gladiator", "Titanic", "Godzilla",
                              "Rocky", "Rambo", "Shrek", "MadMax", "Blade" };
         string directores[] = { "Cameron", "Nolan", "Spielberg", "Scott", "Jackson" };
         string generos[] = { "Accion", "Drama", "SciFi", "Historia", "Comedia" };
 
-        srand(time(nullptr)); // Solo una vez idealmente
+        srand(time(nullptr)); 
 
         // Reinicia ID si quieres empezar desde DV-0001 cada vez:
         DVD::idCounter = 0;
 
-        // Reinicia árbol:
+        // Reinicio del arbol - USO DE 2 LAMBDAS IGUALES QUE EL COSNTRUCTOR
+
         arbolDVDs = DVDAVL<DVD>(
+            // LAMBDA #1: compara dos DVDs por ID
             [](DVD a, DVD b) {
                 if (a.getId() == b.getId()) return 0;
                 return a.getId() < b.getId() ? -1 : 1;
             },
+            // LAMBDA #2: procesa cada DVD (lo muestra)
             [](DVD dvd) { cout << dvd.toString() << endl; }
         );
 
@@ -63,7 +68,7 @@ public:
         Sleep(1000);
     }
 
-    // Mostrar DVDs con paginación
+    // Sistema de paginacion para los libros
     void mostrarDVDs() {
         vector<DVD> dvds;
         arbolDVDs.enOrdenVector(dvds);

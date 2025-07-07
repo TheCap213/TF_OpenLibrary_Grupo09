@@ -11,31 +11,29 @@ private:
 	LibroAVL<Libro> arbolLibros; 
 
 public:
-	LibroRegistro()
-		: arbolLibros(
-			[](Libro a, Libro b) {
-				if (a.getId() == b.getId()) return 0;
-				return a.getId() < b.getId() ? -1 : 1;
-			},
-			[](Libro libro) { cout << libro.toString() << endl; }
-		) {
-	}
+	// USO DE 2 LAMBDAS
+	LibroRegistro() : arbolLibros( 
+			//LAMBDA #1: compara dos Libros
+			[](Libro a, Libro b) { if (a.getId() == b.getId()) return 0; return a.getId() < b.getId() ? -1 : 1;},
+			
+			//LAMBDA #2: procesa un Libro (lo muestra)
+			[](Libro libro) { cout << libro.toString() << endl; }) {}
 
 	~LibroRegistro() {}
 
 	LibroAVL<Libro>& getArbol() { return arbolLibros; }
 
-	//DATA SET
+	//DATASET - GENERADOR DE LIBROS 
+
 	void generarLibros(int cantidad = 500) {
 
 		Libro::idCounter = 0; 
 
-		//TENEMOS 2 LAMBAS AQUI XDXDXDXDXDXDXDXDXDXDXDXDXD
+		// TENEMOS 2 LAMBAS AQUI Xd
 		arbolLibros = LibroAVL<Libro>(
-			[](Libro a, Libro b) {
-				if (a.getId() == b.getId()) return 0;
-				return a.getId() < b.getId() ? -1 : 1;
-			},
+			// LAMBDA #1: compara dos Libros por ID
+			[](Libro a, Libro b) {if (a.getId() == b.getId()) return 0; return a.getId() < b.getId() ? -1 : 1;},
+			// LAMBDA #2: procesa cada Libro (lo muestra
 			[](Libro libro) { cout << libro.toString() << endl; }
 		);
 
