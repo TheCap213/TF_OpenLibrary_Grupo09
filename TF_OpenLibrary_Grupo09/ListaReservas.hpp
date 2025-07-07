@@ -14,6 +14,10 @@ private:
 public:
     ListaReservas() : cabeza(nullptr) {}
 
+    NodoReserva<T>* getCabeza() {
+        return cabeza;
+    }
+
     void agregarReserva(T reserva) {
         NodoReserva<T>* nuevo = new NodoReserva<T>(reserva);
         nuevo->siguiente = cabeza;

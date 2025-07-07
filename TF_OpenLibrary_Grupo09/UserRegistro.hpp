@@ -177,8 +177,15 @@ public:
 		}
 
 		if (usuarios.empty()) {
-			posicion(50, 20); cout << "No hay usuarios registrados.";
-			_getch();
+			ocultarCursor();
+			backgroundColor("#c8ff74");
+			textColor("#000000");
+			posicion(60, 11); cout << "|.......... LISTA DE USUARIOS REGISTRADOS ..........|";
+			resetColor();
+			textColor("#ffffff");
+			posicion(47, 13); cout << "No hay usuarios registrados.";
+			resetColor();
+			Sleep(numRandom() * 600);
 			return;
 		}
 
@@ -195,7 +202,7 @@ public:
 			}
 
 			T& usuario = usuarios[index];
-			backgroundColor("#ff74fb");
+			backgroundColor("#c8ff74");
 			textColor("#000000");
 			posicion(60, 11); cout << "|.......... LISTA DE USUARIOS REGISTRADOS ..........|";
 			resetColor();

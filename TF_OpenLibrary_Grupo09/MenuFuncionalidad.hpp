@@ -20,6 +20,9 @@ void reservarRecurso();
 void reservarLibrosAleatorios(int cantidad);
 void reservarDVDsAleatorios(int cantidad);
 void reservarRecursoManual(string tipo);
+void ordenarReservasLibros_Merge();
+void ordenarReservasDVDs_Quick();
+void ordenarReservasLibros_Heap();
 
 void menuPrincipal() {
 	system("cls");
@@ -122,18 +125,18 @@ void menuUsuario() {
 		resetColor();
 
 		textColor("#ffffff");
-		posicion(5, 13); cout << "Hola " << registro.getUserLogueado()->getNombre() << ", que desesas hacer hoy?";
+		posicion(3, 13); cout << "Hola " << registro.getUserLogueado()->getNombre() << ", que desesas hacer hoy?";
 
-		posicion(7, 15); cout << "[1] Ver todos los libros";
-		posicion(7, 17); cout << "[2] Ver mis reservas de Libros";
-		posicion(7, 19); cout << "[3] Ver todos los DVDs";
-		posicion(7, 21); cout << "[4] Ver mis reservas de DVDs";
-		posicion(7, 23); cout << "[5] Reservar Rercursos (Libro/DVD)";
-		posicion(7, 25); cout << "[6] pendiente....";
-		posicion(7, 27); cout << "[7] pendiente....";
-		posicion(7, 29); cout << "[8] pendiente....";
-		posicion(7, 31); cout << "[9] Cerrar sesion";
-		posicion(5, 33); cout << "> Ingrese una opcion: ";
+		posicion(5, 15); cout << "[1] Ver todos los libros";
+		posicion(5, 17); cout << "[2] Ver mis reservas de Libros";
+		posicion(5, 19); cout << "[3] Ver todos los DVDs";
+		posicion(5, 21); cout << "[4] Ver mis reservas de DVDs";
+		posicion(5, 23); cout << "[5] Reservar Rercursos (Libro/DVD)";
+		posicion(5, 25); cout << "[6] MergeSort Reservas (Titulo libros)";
+		posicion(5, 27); cout << "[7] QuickSort Reservas (Genero DVDs)";
+		posicion(5, 29); cout << "[8] HeapSort Reservas (ID - libros)";
+		posicion(5, 31); cout << "[9] Cerrar sesion";
+		posicion(3, 33); cout << "> Ingrese una opcion: ";
 		
 		string entrada;
 		cin >> entrada;
@@ -149,18 +152,25 @@ void menuUsuario() {
 			registroLibros.mostrarLibros();
 			break;
 		case 2:
-			//ver libros reservados
 			listaReservasLibros.mostrarReservas();
 			break;
 		case 3:
 			registroDVDs.mostrarDVDs();
 			break;
 		case 4:
-			//ver reservas de DVDs
 			listaReservasDVDs.mostrarReservas();
 			break; 
 		case 5:
 			reservarRecurso();
+			break;
+		case 6:
+			ordenarReservasLibros_Merge(); 
+			break;
+		case 7:
+			ordenarReservasDVDs_Quick(); 
+			break;
+		case 8: 
+			ordenarReservasLibros_Heap(); 
 			break;
 		case 9:
 			ocultarCursor();
@@ -221,7 +231,7 @@ void menuAdmin() {
 			opcion = stoi(entrada);
 		}
 		catch (...) {
-			opcion = -1; // Forzar default
+			opcion = -1; 
 		}
 
 		switch (opcion) {
@@ -430,4 +440,263 @@ void reservarRecursoManual(string tipo) {
 	}
 }
 
+// ---------------- MERGESORT PARA LOS TITULOS DE LAS RESERVAS DE LIBROS ----------------
+void merge(vector<Reserva>& v, int l, int m, int r) {
+	int n1 = m - l + 1, n2 = r - m;
+	vector<Reserva> L(v.begin() + l, v.begin() + m + 1);
+	vector<Reserva> R(v.begin() + m + 1, v.begin() + r + 1);
 
+	int i = 0, j = 0, k = l;
+	while (i < n1 && j < n2) {
+		if (L[i].getTitulo() <= R[j].getTitulo()) v[k++] = L[i++];
+		else v[k++] = R[j++];
+	}
+	while (i < n1) v[k++] = L[i++];
+	while (j < n2) v[k++] = R[j++];
+}
+
+void mergeSort(vector<Reserva>& v, int l, int r) {
+	if (l < r) {
+		int m = l + (r - l) / 2;
+		mergeSort(v, l, m);
+		mergeSort(v, m + 1, r);
+		merge(v, l, m, r);
+	}
+}
+
+void ordenarReservasLibros_Merge() {
+	NodoReserva<Reserva>* actual = listaReservasLibros.getCabeza();
+	vector<Reserva> reservas;
+
+	while (actual) {
+		reservas.push_back(actual->reserva);
+		actual = actual->siguiente;
+	}
+
+	if (reservas.empty()) {
+		ocultarCursor();
+		backgroundColor("#ca9bff");
+		textColor("#000000");
+		posicion(49, 11); cout << "|.......... RESERVAS DE LIBROS ORDENADOS POR TITULO (Merge) ..........|";
+		resetColor();
+		textColor("#ffffff");
+		posicion(47, 13); cout << "No hay reservas.";
+		resetColor();
+		Sleep(numRandom() * 600);
+		return;
+	}
+
+	mergeSort(reservas, 0, reservas.size() - 1);
+
+	// Mostrar ordenado (mismo patrón)
+	const int porPagina = 20;
+	int pagina = 0, total = reservas.size();
+	char tecla;
+
+	do {
+		//Limpia area
+		for (int y = 13; y <= 35; ++y) {
+			posicion(47, y);
+			cout << string(79, ' ');
+		}
+
+		backgroundColor("#ca9bff");
+		textColor("#000000");
+		posicion(49, 11); cout << "|.......... RESERVAS DE LIBROS ORDENADOS POR TITULO (Merge) ..........|";
+		resetColor();
+
+		int start = pagina * porPagina, end = min(start + porPagina, total);
+		int y = 13;
+		for (int i = start; i < end; ++i) {
+			posicion(47, y++); cout << reservas[i].toString();
+		}
+
+		posicion(47, y + 1); cout << "[A] Anterior | [D] Siguiente | [S] Salir";
+
+		tecla = _getch();
+		if (tecla == 'A' || tecla == 'a') {
+			if (pagina > 0) pagina--;
+		}
+		else if (tecla == 'D' || tecla == 'd') {
+			if (end < total) pagina++;
+		}
+		else if (tecla == 'S' || tecla == 's') {
+			break;
+		}
+
+	} while (true);
+}
+
+// ---------------- QUICKSORT PARA LOS GENEROS DE LAS RESERVAS DE DVDs ----------------
+int partition(vector<Reserva>& v, int low, int high) {
+	string pivot = v[high].getGenero();
+	int i = low - 1;
+
+	for (int j = low; j < high; ++j) {
+		if (v[j].getGenero() <= pivot) {
+			++i;
+			swap(v[i], v[j]);
+		}
+	}
+	swap(v[i + 1], v[high]);
+	return i + 1;
+}
+
+void quickSort(vector<Reserva>& v, int low, int high) {
+	if (low < high) {
+		int pi = partition(v, low, high);
+		quickSort(v, low, pi - 1);
+		quickSort(v, pi + 1, high);
+	}
+}
+void ordenarReservasDVDs_Quick() {
+	NodoReserva<Reserva>* actual = listaReservasDVDs.getCabeza();
+	vector<Reserva> reservas;
+
+	while (actual) {
+		reservas.push_back(actual->reserva);
+		actual = actual->siguiente;
+	}
+
+	if (reservas.empty()) {
+		ocultarCursor();
+		backgroundColor("#a7b3db");
+		textColor("#000000");
+		posicion(51, 11); cout << "|.......... RESERVAS DE DVDs ORDENADAS POR GENERO (Quick) ..........|";
+		resetColor();
+		textColor("#ffffff");
+		posicion(47, 13); cout << "No hay reservas.";
+		resetColor();
+		Sleep(numRandom() * 600);
+		return;
+	}
+
+	quickSort(reservas, 0, reservas.size() - 1);
+
+	const int porPagina = 20;
+	int pagina = 0, total = reservas.size();
+	char tecla;
+
+	do {
+		//limpia area
+		for (int y = 13; y <= 35; ++y) {
+			posicion(47, y); 
+			cout << string(79, ' ');
+		}
+
+		backgroundColor("#a7b3db");
+		textColor("#000000");
+		posicion(51, 11); cout << "|.......... RESERVAS DE DVDs ORDENADAS POR GENERO (Quick) ..........|";
+		resetColor();
+
+		int start = pagina * porPagina, end = min(start + porPagina, total);
+		int y = 13;
+		for (int i = start; i < end; ++i) {
+			posicion(47, y++); cout << reservas[i].toString();
+		}
+
+		posicion(47, y + 1); cout << "[A] Anterior | [D] Siguiente | [S] Salir";
+
+		tecla = _getch();
+		if (tecla == 'A' || tecla == 'a') {
+			if (pagina > 0) pagina--;
+		}
+		else if (tecla == 'D' || tecla == 'd') {
+			if (end < total) pagina++;
+		}
+		else if (tecla == 'S' || tecla == 's') {
+			break;
+		}
+
+	} while (true);
+}
+
+// ---------------- HEAPSORT PARA LOS IDs DE LAS RESERVAS DE LIBROS ----------------
+void heapify(vector<Reserva>& v, int n, int i) {
+	int largest = i;
+	int l = 2 * i + 1;
+	int r = 2 * i + 2;
+
+	if (l < n && v[l].getIdRecurso() > v[largest].getIdRecurso())
+		largest = l;
+
+	if (r < n && v[r].getIdRecurso() > v[largest].getIdRecurso())
+		largest = r;
+
+	if (largest != i) {
+		swap(v[i], v[largest]);
+		heapify(v, n, largest);
+	}
+}
+
+void heapSort(vector<Reserva>& v) {
+	int n = v.size();
+
+	for (int i = n / 2 - 1; i >= 0; i--)
+		heapify(v, n, i);
+
+	for (int i = n - 1; i > 0; i--) {
+		swap(v[0], v[i]);
+		heapify(v, i, 0);
+	}
+}
+
+void ordenarReservasLibros_Heap() {
+	NodoReserva<Reserva>* actual = listaReservasLibros.getCabeza();
+	vector<Reserva> reservas;
+
+	while (actual) {
+		reservas.push_back(actual->reserva);
+		actual = actual->siguiente;
+	}
+
+	if (reservas.empty()) {
+		ocultarCursor();
+		backgroundColor("#e7d262");
+		textColor("#000000");
+		posicion(53, 11); cout << "|.......... RESERVAS DE LIBROS ORDENADAS POR IDs (Heap) ..........|";
+		resetColor();
+		textColor("#ffffff");
+		posicion(47, 13); cout << "No hay reservas.";
+		resetColor();
+		Sleep(numRandom() * 600);
+		return;
+	}
+
+	heapSort(reservas); 
+
+	const int porPagina = 20;
+	int pagina = 0, total = reservas.size();
+	char tecla;
+
+	do {
+		for (int y = 13; y <= 35; ++y) {
+			posicion(47, y); cout << string(79, ' ');
+		}
+
+		backgroundColor("#e7d262");
+		textColor("#000000");
+		posicion(53, 11); cout << "|.......... RESERVAS DE LIBROS ORDENADAS POR IDs (Heap) ..........|";
+		resetColor();
+
+		int start = pagina * porPagina, end = min(start + porPagina, total);
+		int y = 13;
+		for (int i = start; i < end; ++i) {
+			posicion(47, y++); cout << reservas[i].toString();
+		}
+
+		posicion(47, y + 1); cout << "[A] Anterior | [D] Siguiente | [S] Salir";
+
+		tecla = _getch();
+		if (tecla == 'A' || tecla == 'a') {
+			if (pagina > 0) pagina--;
+		}
+		else if (tecla == 'D' || tecla == 'd') {
+			if (end < total) pagina++;
+		}
+		else if (tecla == 'S' || tecla == 's') {
+			break;
+		}
+
+	} while (true);
+}

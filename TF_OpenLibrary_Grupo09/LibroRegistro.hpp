@@ -86,8 +86,14 @@ public:
 		vector<Libro> libros;
 		arbolLibros.enOrdenVector(libros);
 		if (libros.empty()) {
-			textColor("#fa6f09");
-			posicion(63, 22); cout << "No hay libros registrados.";
+			ocultarCursor();
+			backgroundColor("#85ffd5");
+			textColor("#000000");
+			posicion(63, 11); cout << "|.......... LISTA DE LIBROS DISPONIBLES ..........|";
+			resetColor();
+			textColor("#ffffff");
+			posicion(47, 13); cout << "No hay reservas.";
+			resetColor();
 			Sleep(numRandom() * 600);
 			return;
 		}
@@ -106,7 +112,7 @@ public:
 				cout << string(79, ' ');
 			}
 
-			backgroundColor("#f05252");
+			backgroundColor("#85ffd5");
 			textColor("#000000");
 			posicion(63, 11); cout << "|.......... LISTA DE LIBROS DISPONIBLES ..........|";
 			resetColor();

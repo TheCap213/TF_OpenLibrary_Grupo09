@@ -69,9 +69,15 @@ public:
         arbolDVDs.enOrdenVector(dvds);
 
         if (dvds.empty()) {
-            textColor("#fa6f09");
-            posicion(63, 22); cout << "No hay DVDs generados.";
-            Sleep(600);
+            ocultarCursor();
+            backgroundColor("#5afffc");
+            textColor("#000000");
+            posicion(63, 11); cout << "|.......... LISTA DE DVDs ..........|";
+            resetColor();
+            textColor("#ffffff");
+            posicion(47, 13); cout << "No hay reservas.";
+            resetColor();
+            Sleep(numRandom() * 600);
             return;
         }
 
@@ -89,7 +95,7 @@ public:
                 cout << string(79, ' ');
             }
 
-            backgroundColor("#f05252");
+            backgroundColor("#5afffc");
             textColor("#000000");
             posicion(63, 11); cout << "|.......... LISTA DE DVDs ..........|";
             resetColor();
